@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    'apps.user.apps.UserConfig',
 
 ]
 
@@ -162,6 +163,7 @@ USE_I18N = True
 
 USE_TZ = True
 # auth 
+AUTH_USER_MODEL = "user.CustomUser"
 
 
 
