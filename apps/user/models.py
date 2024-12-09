@@ -18,7 +18,10 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
     mobile = models.CharField(max_length=11, unique=True)
-    is_active = models.BooleanField(default=True)
+    email = models.EmailField(unique=True, blank=True, null=True)
+    first_name = models.CharField(max_length=25, blank=True, null=True)
+    last_name = models.CharField(max_length=25, blank=True, null=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_verify = models.BooleanField(default=False, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
