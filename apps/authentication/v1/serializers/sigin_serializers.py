@@ -19,13 +19,12 @@ class VerifyOTPSerializer(serializers.Serializer):
 
 
 
-class MobileRegisterSerializer(serializers.ModelSerializer):
+class MobileRegisterSerializer(serializers.Serializer):
     token = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(write_only=True, required=True)
     password2 = serializers.CharField(write_only=True, required=True)
 
-    class Meta:
-        model = User
+    
 
     def validate_mobile(self, value):
         if User.objects.filter(mobile=value).exists():
