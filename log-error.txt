@@ -1,1 +1,29 @@
-Superuser created successfully.
+call api setmobile error 
+..............................................................
+
+2024-12-19 18:19:52 [19/Dec/2024 14:49:52] "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+2024-12-19 18:19:52 [19/Dec/2024 14:49:52] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+2024-12-19 18:20:34 Internal Server Error: /authentication/APi-v1/setmobileApi
+2024-12-19 18:20:34 Traceback (most recent call last):
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+2024-12-19 18:20:34     response = get_response(request)
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+2024-12-19 18:20:34     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+2024-12-19 18:20:34     return view_func(request, *args, **kwargs)
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+2024-12-19 18:20:34     return self.dispatch(request, *args, **kwargs)
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+2024-12-19 18:20:34     response = self.handle_exception(exc)
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+2024-12-19 18:20:34     self.raise_uncaught_exception(exc)
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+2024-12-19 18:20:34     raise exc
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+2024-12-19 18:20:34     response = handler(request, *args, **kwargs)
+2024-12-19 18:20:34   File "/app/apps/authentication/v1/views/sigin.py", line 39, in post
+2024-12-19 18:20:34     threading.Thread(send_sms_otp,args=(mobile, otp_send)).start()
+2024-12-19 18:20:34   File "/usr/local/lib/python3.10/threading.py", line 850, in __init__
+2024-12-19 18:20:34     assert group is None, "group argument must be None for now"
+2024-12-19 18:20:34 AssertionError: group argument must be None for now
+2024-12-19 18:20:34 [19/Dec/2024 14:50:34] "POST /authentication/APi-v1/setmobileApi HTTP/1.1" 500 15188
