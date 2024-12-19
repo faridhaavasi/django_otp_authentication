@@ -15,7 +15,7 @@ class MobileSetSerializer(serializers.Serializer):
 
 class VerifyOTPSerializer(serializers.Serializer):
     token = serializers.CharField(write_only=True, required=True)
-    otp = serializers.CharField(write_only=True, required=True)
+    code = serializers.CharField(write_only=True, required=True)
 
 
 
@@ -57,6 +57,8 @@ class MobileRegisterSerializer(serializers.Serializer):
     
 
 class SetInformationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=True)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['token','first_name', 'last_name', 'email', 'password']

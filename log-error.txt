@@ -1,29 +1,43 @@
-call api setmobile error 
-..............................................................
-
-2024-12-19 18:19:52 [19/Dec/2024 14:49:52] "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
-2024-12-19 18:19:52 [19/Dec/2024 14:49:52] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
-2024-12-19 18:20:34 Internal Server Error: /authentication/APi-v1/setmobileApi
-2024-12-19 18:20:34 Traceback (most recent call last):
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-2024-12-19 18:20:34     response = get_response(request)
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-2024-12-19 18:20:34     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
-2024-12-19 18:20:34     return view_func(request, *args, **kwargs)
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-2024-12-19 18:20:34     return self.dispatch(request, *args, **kwargs)
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-2024-12-19 18:20:34     response = self.handle_exception(exc)
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-2024-12-19 18:20:34     self.raise_uncaught_exception(exc)
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-2024-12-19 18:20:34     raise exc
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-2024-12-19 18:20:34     response = handler(request, *args, **kwargs)
-2024-12-19 18:20:34   File "/app/apps/authentication/v1/views/sigin.py", line 39, in post
-2024-12-19 18:20:34     threading.Thread(send_sms_otp,args=(mobile, otp_send)).start()
-2024-12-19 18:20:34   File "/usr/local/lib/python3.10/threading.py", line 850, in __init__
-2024-12-19 18:20:34     assert group is None, "group argument must be None for now"
-2024-12-19 18:20:34 AssertionError: group argument must be None for now
-2024-12-19 18:20:34 [19/Dec/2024 14:50:34] "POST /authentication/APi-v1/setmobileApi HTTP/1.1" 500 15188
+2024-12-19 21:43:21   File "/app/apps/authentication/v1/views/sigin.py", line 58, in post
+2024-12-19 21:43:21     mobile = OTP.objects.get(token=token).mobile
+2024-12-19 21:43:21   File "/usr/local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+2024-12-19 21:43:21     return getattr(self.get_queryset(), name)(*args, **kwargs)
+2024-12-19 21:43:21   File "/usr/local/lib/python3.10/site-packages/django/db/models/query.py", line 649, in get
+2024-12-19 21:43:21     raise self.model.DoesNotExist(
+2024-12-19 21:43:21 apps.authentication.models.OTP.DoesNotExist: OTP matching query does not exist.
+2024-12-19 21:43:21 [19/Dec/2024 18:13:21] "POST /authentication/APi-v1/setotpApi HTTP/1.1" 500 15307
+2024-12-19 21:45:53 [19/Dec/2024 18:15:53] "GET / HTTP/1.1" 200 4649
+2024-12-19 21:45:54 [19/Dec/2024 18:15:54] "GET /api/schema/ HTTP/1.1" 200 12116
+2024-12-19 21:46:23 [19/Dec/2024 18:16:23] "POST /authentication/APi-v1/setmobileApi HTTP/1.1" 200 98
+2024-12-19 21:47:11 [19/Dec/2024 18:17:11] "GET /admin/authentication/otp/ HTTP/1.1" 200 9951
+2024-12-19 21:47:25 [19/Dec/2024 18:17:25] "GET /admin/authentication/otp/ HTTP/1.1" 200 9951
+2024-12-19 21:47:26 [19/Dec/2024 18:17:26] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2024-12-19 21:47:33 [19/Dec/2024 18:17:33] "GET /admin/authentication/otp/4/change/ HTTP/1.1" 200 10442
+2024-12-19 21:47:33 [19/Dec/2024 18:17:33] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2024-12-19 21:48:01 [19/Dec/2024 18:18:01] "POST /authentication/APi-v1/setotpApi HTTP/1.1" 200 278
+2024-12-19 21:50:04 Internal Server Error: /authentication/APi-v1/setinformationApi
+2024-12-19 21:50:04 Traceback (most recent call last):
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+2024-12-19 21:50:04     response = get_response(request)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+2024-12-19 21:50:04     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+2024-12-19 21:50:04     return view_func(request, *args, **kwargs)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+2024-12-19 21:50:04     return self.dispatch(request, *args, **kwargs)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+2024-12-19 21:50:04     response = self.handle_exception(exc)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+2024-12-19 21:50:04     self.raise_uncaught_exception(exc)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+2024-12-19 21:50:04     raise exc
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+2024-12-19 21:50:04     response = handler(request, *args, **kwargs)
+2024-12-19 21:50:04   File "/app/apps/authentication/v1/views/sigin.py", line 75, in post
+2024-12-19 21:50:04     user = User.objects.get(mobile=OTP.objects.get(token=token).mobile)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+2024-12-19 21:50:04     return getattr(self.get_queryset(), name)(*args, **kwargs)
+2024-12-19 21:50:04   File "/usr/local/lib/python3.10/site-packages/django/db/models/query.py", line 649, in get
+2024-12-19 21:50:04     raise self.model.DoesNotExist(
+2024-12-19 21:50:04 apps.authentication.models.OTP.DoesNotExist: OTP matching query does not exist.
+2024-12-19 21:50:04 [19/Dec/2024 18:20:04] "POST /authentication/APi-v1/setinformationApi HTTP/1.1" 500 15374

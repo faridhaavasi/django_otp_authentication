@@ -1,55 +1,84 @@
-from rest_framework.generics import GenericAPIView
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework import status
 import random
 import threading
 import uuid
+from datetime import timedelta
+from django.utils.timezone import now
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
 from apps.authentication.models import OTP
 from apps.user.models import CustomUser as User
 from apps.authentication.v1.serializers.sigin_serializers import (
-    MobileRegisterSerializer, 
-    MobileSetSerializer, 
+    MobileSetSerializer,
     VerifyOTPSerializer,
-    SetInformationSerializer,
-    )
+    SetInformationSerializer
+)
+
 def send_sms_otp(mobile: str, otp: str):
     '''
-        send sms otp in mobile number by kavenegar
+    send sms to mobile
     '''
-    return f'send {otp} in {mobile}'
-
+    print(f'Sending OTP {otp} to {mobile}') 
 
 class MobileSetApiView(GenericAPIView):
     serializer_class = MobileSetSerializer
+
     def post(self, request):
-        seriaizer = self.serializer_class(data=request.data)
-        if seriaizer.is_valid():
-            mobile = seriaizer.validated_data['mobile']
-            user_mobile = User.objects.filter(mobile=mobile).exists() # bool
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            mobile = serializer.validated_data['mobile']
+            user_mobile = User.objects.filter(mobile=mobile).exists()
             if user_mobile:
-                return Response({'meesage': 'You have already registered, please login.'})
-            else:
-                user = User(mobile=mobile)
-                user.save()
-                token = str(uuid.uuid4())
-                otp_send = random.randint(100000, 999999)
-                OTP.objects.create(token=token,mobile=mobile, code=otp_send)
-                threading.Thread(send_sms_otp,args=(mobile, otp_send)).start()
-                return Response({'token': token, 'otp': otp_send})
-        return Response(seriaizer.errors)
+                return Response({'message': 'You have already registered, please login.'}, status=status.HTTP_303_SEE_OTHER)
+            
+            recent_otp = OTP.objects.filter(mobile=mobile, created_at__gte=now() - timedelta(minutes=3)).exists()
+            if recent_otp:
+                return Response({'message': 'Please wait before requesting another OTP'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+
+            user = User(mobile=mobile)
+            user.save()
+            token = str(uuid.uuid4())
+            otp_send = random.randint(100000, 999999)
+            OTP.objects.create(token=token, mobile=mobile, code=otp_send)
+
+            threading.Thread(target=send_sms_otp, args=(mobile, otp_send)).start()
+
+            return Response({'token': token, 'message': 'OTP sent successfully. Please verify.'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SetOtpCode(GenericAPIView):
     serializer_class = VerifyOTPSerializer
+
     def post(self, request):
-        seriaizer = self.serializer_class(data=request.data)
-        if seriaizer.is_valid():
-            token = seriaizer.validated_data['token']
-            code = seriaizer.validated_data['code']
-            otp = OTP.objects.filter(token=token, code=code).exists()
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            token = serializer.validated_data['token']
+            code = serializer.validated_data['code']
+            mobile = OTP.objects.get(token=token).mobile
+            refesh = RefreshToken.for_user(User.objects.get(mobile=mobile))
+            access_token = str(refesh.access_token)
+            otp = OTP.objects.filter(token=token, code=code).first()
             if otp:
-                return Response({'message': 'otp is valid'})
-            return Response({'message': 'otp is invalid'})
-        return Response(seriaizer.errors)
-    
+                otp.delete()
+                return Response({'message': 'OTP verified successfully', 'token': access_token}, status=status.HTTP_200_OK)
+            return Response({'message': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SetInformationApiView(GenericAPIView):
+    serializer_class = SetInformationSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            token = serializer.validated_data['token']
+            user = User.objects.get(mobile=OTP.objects.get(token=token).mobile)
+            user.email = serializer.validated_data['email']
+            user.first_name = serializer.validated_data['first_name']
+            user.last_name = serializer.validated_data['last_name']
+            user.set_password(serializer.validated_data['password'])
+            user.is_active = True
+            user.is_verify = True
+            user.save()
+            return Response({'message': 'password set successfully'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    

@@ -3,8 +3,8 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('mobile', 'email', 'first_name', 'last_name', 'is_staff', 'is_active')
-    list_filter = ('is_staff', 'is_active', 'is_superuser')
+    list_display = ('mobile', 'email', 'first_name', 'last_name', 'is_staff', 'is_active', 'is_superuser', 'is_verify')
+    list_filter = ('is_staff', 'is_active', 'is_superuser', 'is_verify')
     fieldsets = (
         (None, {'fields': ('mobile', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name', 'email')}),
