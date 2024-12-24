@@ -4,7 +4,7 @@ from datetime import timedelta
 
 class OTP(models.Model):
     token = models.CharField(max_length=255, unique=True)
-    mobile = models.CharField(max_length=15)
+    mobile = models.CharField(max_length=15, unique=True)
     code = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
 

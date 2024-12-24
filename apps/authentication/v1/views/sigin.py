@@ -77,7 +77,8 @@ class SetInformationApiView(GenericAPIView):
             user.is_verify = True
             user.set_password(serializer.validated_data['password'])
             user.save()
-     
+            otp = OTP.objects.get(mobile=mobile)
+            otp.delete()    
             return Response({'message': 'information  set successfully'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
