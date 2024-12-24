@@ -14,3 +14,14 @@ class OTP(models.Model):
     def is_valid(self):
         # save code with 5 min 
         return now() < self.created_at + timedelta(minutes=5)
+
+
+class FailedLoginAttempt(models.Model):
+    ip_address = models.GenericIPAddressField()
+    attempts = models.IntegerField(default=0)
+    last_attempt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.ip_address
+
+

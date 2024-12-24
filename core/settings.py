@@ -85,6 +85,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    # add the middleware here
+    'apps.authentication.middleware.BlockIPMiddleware',
 
 ]
 
