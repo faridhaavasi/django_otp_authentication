@@ -74,6 +74,7 @@ class SetInformationApiView(GenericAPIView):
             user.first_name = serializer.validated_data['first_name']
             user.last_name = serializer.validated_data['last_name']
             user.email = serializer.validated_data['email']
+            user.is_active = True
             user.is_verify = True
             user.set_password(serializer.validated_data['password'])
             user.save()
